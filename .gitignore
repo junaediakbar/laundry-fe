@@ -41,6 +41,3 @@ robots.txt
 sitemap.xml
 sitemap-*.xml
 
-.prettierrc.js
-.stylelintrc.js
-.eslintrc.js

@@ -23,7 +23,7 @@ export default function TextButtonPage() {
                 </Typography>
                 <div className='flex gap-x-4'>
                   <TextButton variant='primary'>Button</TextButton>
-                  <TextButton variant='primary' size='sm'>
+                  <TextButton variant='primary' size='small'>
                     Button
                   </TextButton>
                   <PrimaryLink href='/' variant='primary'>
@@ -37,7 +37,7 @@ export default function TextButtonPage() {
                   <TextButton variant='primary' disabled={true}>
                     Button
                   </TextButton>
-                  <TextButton variant='primary' size='sm' disabled={true}>
+                  <TextButton variant='primary' size='small' disabled={true}>
                     Button
                   </TextButton>
                 </div>
@@ -47,8 +47,8 @@ export default function TextButtonPage() {
                   Secondary
                 </Typography>
                 <div className='flex gap-x-4'>
-                  <TextButton variant='secondary'>Button</TextButton>
-                  <TextButton variant='secondary' size='sm'>
+                  <TextButton variant='basic'>Button</TextButton>
+                  <TextButton variant='basic' size='small'>
                     Button
                   </TextButton>
                   <PrimaryLink href='/' variant='secondary'>
@@ -59,10 +59,10 @@ export default function TextButtonPage() {
                   </PrimaryLink>
                 </div>
                 <div className='flex gap-x-4'>
-                  <TextButton variant='secondary' disabled={true}>
+                  <TextButton variant='basic' disabled={true}>
                     Button
                   </TextButton>
-                  <TextButton variant='secondary' size='sm' disabled={true}>
+                  <TextButton variant='basic' size='small' disabled={true}>
                     Button
                   </TextButton>
                 </div>
@@ -73,7 +73,7 @@ export default function TextButtonPage() {
                 </Typography>
                 <div className='flex gap-x-4'>
                   <TextButton variant='basic'>Button</TextButton>
-                  <TextButton variant='basic' size='sm'>
+                  <TextButton variant='basic' size='small'>
                     Button
                   </TextButton>
                   <PrimaryLink href='/' variant='basic'>
@@ -87,7 +87,7 @@ export default function TextButtonPage() {
                   <TextButton variant='basic' disabled={true}>
                     Button
                   </TextButton>
-                  <TextButton variant='basic' size='sm' disabled={true}>
+                  <TextButton variant='basic' size='small' disabled={true}>
                     Button
                   </TextButton>
                 </div>
@@ -98,7 +98,7 @@ export default function TextButtonPage() {
                 </Typography>
                 <div className='flex gap-x-4'>
                   <TextButton variant='danger'>Button</TextButton>
-                  <TextButton variant='danger' size='sm'>
+                  <TextButton variant='danger' size='small'>
                     Button
                   </TextButton>
                   <PrimaryLink href='/' variant='danger'>
@@ -112,7 +112,7 @@ export default function TextButtonPage() {
                   <TextButton variant='danger' disabled={true}>
                     Button
                   </TextButton>
-                  <TextButton variant='danger' size='sm' disabled={true}>
+                  <TextButton variant='danger' size='small' disabled={true}>
                     Button
                   </TextButton>
                 </div>

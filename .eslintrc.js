@@ -12,7 +12,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  ignorePatterns: ['temp.js', '**/*.js'],
+  ignorePatterns: ['!.prettierrc.js', '.eslintrc.js'],
   rules: {
     '@next/next/no-img-element': 'off',
     'no-unused-vars': 'off',
