@@ -12,63 +12,13 @@ import {
 } from '@/constant/services';
 
 import { Transaction } from '@/types/api';
-export const props = {
-  outputType: 'save',
-  fileName: 'Invoice 2021',
-  orientationLandscape: false,
-  logo: {
-    src: 'https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/logo.png',
-    width: 53.33, //aspect ratio = width/height
-    height: 26.66,
-  },
-  business: {
-    name: 'Business Name',
-    address: 'Albania, Tirane ish-Dogana, Durres 2001',
-    phone: '(+355) 069 11 11 111',
-    email: 'email@example.com',
-    email_1: 'info@example.al',
-    website: 'www.example.al',
-  },
-  contact: {
-    label: 'Invoice issued for:',
-    name: 'Client Name',
-    address: 'Albania, Tirane, Astir',
-    phone: '(+355) 069 22 22 222',
-    email: 'client@website.al',
-    otherInfo: 'www.website.al',
-  },
-  invoice: {
-    label: 'Invoice #: ',
-    invTotalLabel: 'Total:',
-    num: 19,
-    invDate: 'Payment Date: 01/01/2021 18:12',
-    invGenDate: 'Invoice Date: 02/02/2021 10:17',
-    header: ['#', 'Description', 'Price', 'Quantity', 'Unit', 'Total'],
-    headerBorder: false,
-    tableBodyBorder: false,
-    table: Array.from(Array(10), (item, index) => ({
-      num: index + 1,
-      desc: 'There are many variations ',
-      price: 200.5,
-      quantity: 4.5,
-      unit: 'm2',
-      total: 400.5,
-    })),
-    invTotal: '145,250.50',
-    invCurrency: 'ALL',
-    invDescLabel: 'Invoice Note',
-    invDesc:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
-  },
-  footer: {
-    text: 'The invoice is created on a computer and is valid without the signature and stamp.',
-  },
-  pageEnable: true,
-  pageLabel: 'Page ',
-};
 const PdfGenerator = (data: Transaction) => {
   function downloadInvoice() {
     const doc = new jsPDF();
+    const paymentStatus =
+      data.datePayment != '' && data.datePayment
+        ? 'Dibayar Pada: ' + getDateFormatted(data.datePayment)
+        : 'Belum Lunas';
     doc.addImage(LogoBase64, 'JPEG', 10, 5, 20, 20);
     doc.setLineWidth(1);
     doc.line(10, 30, 200, 30);
@@ -109,6 +59,7 @@ const PdfGenerator = (data: Transaction) => {
           {
             content:
               'From:' +
+              data.cashier +
               '\nTrees Clean Laundry' +
               '\nJL. Tombolotutu No 9B' +
               '\n94118',
@@ -126,9 +77,12 @@ const PdfGenerator = (data: Transaction) => {
         [
           {
             content:
-              'Reference: #INV0001' +
-              '\nDate: 2022-01-27' +
-              '\nInvoice number: 123456',
+              'Reference: ' +
+              data.transactionId +
+              '\nDate: ' +
+              getDateFormatted(data.dateIn) +
+              '\nInvoice number: ' +
+              data.notaId,
             styles: {
               halign: 'right',
             },
@@ -204,7 +158,7 @@ const PdfGenerator = (data: Transaction) => {
         ],
         [
           {
-            content: 'Dibayar Pada: ' + getDateFormatted(data.dateIn),
+            content: paymentStatus,
             styles: {
               halign: 'right',
             },

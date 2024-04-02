@@ -56,7 +56,10 @@ export default function Header({ setSidebarOpen }: HeaderProps) {
                       alt='avatar'
                     />
                     <div className='hidden min-w-0 flex-1 flex-col items-start sm:flex text-base-dark max-w-full'>
-                      <Typography variant='b3' className='truncate w-full'>
+                      <Typography
+                        variant='b3'
+                        className='truncate w-full font-bold'
+                      >
                         {user?.name}
                       </Typography>
                       <Typography variant='s4' className='text-base-secondary'>

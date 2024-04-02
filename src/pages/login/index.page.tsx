@@ -60,7 +60,7 @@ export default function LoginPage() {
         <div className='bg-white p-6 xs:p-8 md:p-10 rounded-3xl md:shadow-2xl space-y-6 w-full max-w-[26rem] mx-auto'>
           <div className='space-y-1'>
             <h2 className='text-2xl font-bold'>Log in</h2>
-            <p className='text-black/70'>to continue to Workhub</p>
+            <p className='text-black/70'>to continue to Dashboard</p>
           </div>
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-2.5'>

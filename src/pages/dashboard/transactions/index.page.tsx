@@ -99,7 +99,17 @@ function TransactionsPage() {
       {
         accessorKey: 'status',
         cell: (props) => (
-          <Tag color='primary'>{props.getValue() as string}</Tag>
+          <Tag
+            color={
+              (props.getValue() as string) === 'lunas'
+                ? 'success'
+                : (props.getValue() as string) === 'belum-bayar'
+                  ? 'danger'
+                  : 'primary'
+            }
+          >
+            {props.getValue() as string}
+          </Tag>
         ),
       },
       {

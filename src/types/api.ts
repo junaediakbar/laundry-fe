@@ -48,6 +48,7 @@ export interface Transaction {
   dateIn: string;
   dateDone: string;
   dateOut?: string;
+  datePayment: string;
   status: string;
   deletedAt?: string;
   notes: string;
@@ -67,4 +68,18 @@ export interface Customer {
   noTelp: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface ActivityApi {
+  message: string;
+  data: Activity[];
+}
+export interface Activity {
+  id: number;
+  action: string;
+  notaId: string;
+  name: string;
+  time: string;
+  createdAt: string;
+  updatedAt: string;
 }

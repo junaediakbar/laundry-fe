@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Edit } from 'lucide-react';
+import moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -33,6 +34,7 @@ export default function CreateTransactionPage() {
   const { data: detailTransaction } = useQuery<ApiResponse<Transaction>, Error>(
     [url],
   );
+
   const methods = useForm<Transaction>({
     mode: 'onTouched',
   });
@@ -40,12 +42,16 @@ export default function CreateTransactionPage() {
   const generatePdf = () => {
     PdfGenerator(detailTransaction?.data as Transaction);
   };
+
+  const date = moment();
+  const getDateNowFormatted = date.format('DD/MM/YYYY HH:mm');
   const [price, setPrice] = React.useState('0');
   const [passwordCashier, setPasswordCashier] = useState('');
 
   //Watch ALl Records Transaction
   const service = methods.watch('service');
   const cashier = methods.watch('cashier');
+  const status = methods.watch('status');
 
   //Set initial values
   useEffect(() => {
@@ -55,6 +61,24 @@ export default function CreateTransactionPage() {
       });
     }
   }, [detailTransaction, methods]);
+
+  useEffect(() => {
+    if (status === 'lunas') {
+      methods.setValue(
+        'datePayment',
+        detailTransaction?.data.datePayment
+          ? detailTransaction?.data.datePayment
+          : getDateNowFormatted,
+      );
+    } else {
+      methods.setValue('datePayment', '');
+    }
+  }, [
+    status,
+    methods,
+    getDateNowFormatted,
+    detailTransaction?.data.datePayment,
+  ]);
 
   const { handleSubmit } = methods;
   const onSubmitForm: SubmitHandler<Transaction> = (data) => {
@@ -223,6 +247,36 @@ export default function CreateTransactionPage() {
                       required: 'Tanggal Perkiraan Selesai harus diisi',
                       valueAsDate: true,
                     }}
+                  />
+                  <SearchableSelectInput
+                    id='status'
+                    label='Status Pembayaran'
+                    placeholder='Status Pembayarann'
+                    options={[
+                      {
+                        value: 'lunas',
+                        label: 'Lunas',
+                      },
+                      {
+                        value: 'belum-bayar',
+                        label: 'Belum Bayar',
+                      },
+                      {
+                        value: 'bayar-sebagian',
+                        label: 'Bayar Sebagian',
+                      },
+                    ]}
+                    validation={{ required: 'Select Input must be filled' }}
+                  />
+                  <DatePicker
+                    showTimeSelect={true}
+                    id='datePayment'
+                    label='Tanggal Pembayaran'
+                    placeholder='dd/MM/yyyy HH:mm'
+                    defaultYear={2024}
+                    defaultValue={getDateNowFormatted}
+                    dateFormat='dd/MM/yyyy HH:mm'
+                    validation={{}}
                   />
                   <div className='col-span-2'>
                     <TextArea

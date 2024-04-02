@@ -6,7 +6,8 @@ import { getToken } from '@/lib/cookies';
 
 import { ApiError } from '@/types/api';
 
-export const baseUrl = 'https://laundry-api-five.vercel.app/';
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const isServer = () => {
   return typeof window === 'undefined';
 };
