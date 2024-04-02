@@ -80,6 +80,19 @@ export default function TablePage() {
       ],
       [],
     );
+  const getMeta = (qData: PaginatedApiResponse<User[]> | undefined) => {
+    if (qData == undefined) {
+      return {};
+    }
+    return {
+      total: qData.total,
+      currentPages: qData.currentPages,
+      limit: qData.limit,
+      maxPages: qData.maxPages,
+      from: qData.from,
+      to: qData.to,
+    };
+  };
 
   const url = buildPaginatedTableURL({
     baseUrl: '/users',
@@ -134,7 +147,7 @@ export default function TablePage() {
             <ServerTable
               columns={columns}
               data={queryData?.data ?? []}
-              meta={queryData?.meta}
+              meta={getMeta(queryData)}
               header={
                 <PopupFilter
                   filterOption={filterOption}

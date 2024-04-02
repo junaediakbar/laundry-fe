@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "types": ["babel__generator"],
+    "typeRoots": ["node_modules/@types", "path/to/your/custom/types"],
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

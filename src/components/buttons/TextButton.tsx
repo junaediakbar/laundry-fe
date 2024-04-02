@@ -1,24 +1,48 @@
-import * as React from 'react';
+import React from 'react';
+import { IconType } from 'react-icons';
 
 import clsxm from '@/lib/clsxm';
 
-const TextButtonSize = ['sm', 'base'] as const;
-const TextButtonVariant = [
-  'primary',
-  'secondary',
-  'basic',
-  'danger',
-  'white',
-] as const;
+enum TextButtonSize {
+  'small',
+  'base',
+  'large',
+}
 
-type TextButtonProps = {
-  size?: (typeof TextButtonSize)[number];
-  variant?: (typeof TextButtonVariant)[number];
+export enum TextButtonVariant {
+  'basic',
+  'primary',
+  'danger',
+}
+
+export type TextButtonProps = {
+  size?: keyof typeof TextButtonSize;
+  variant?: keyof typeof TextButtonVariant;
+  icon?: IconType;
+  leftIcon?: IconType;
+  rightIcon?: IconType;
+  iconClassName?: string;
+  leftIconClassName?: string;
+  rightIconClassName?: string;
+  textClassName?: string;
 } & React.ComponentPropsWithRef<'button'>;
 
 const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
   (
-    { children, className, size = 'base', variant = 'primary', ...rest },
+    {
+      children,
+      className,
+      size = 'base',
+      variant = 'primary',
+      icon: Icon,
+      leftIcon: LeftIcon,
+      rightIcon: RightIcon,
+      iconClassName,
+      leftIconClassName,
+      rightIconClassName,
+      textClassName,
+      ...rest
+    },
     ref,
   ) => {
     return (
@@ -26,46 +50,46 @@ const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
         ref={ref}
         type='button'
         className={clsxm(
-          'button inline-flex items-center justify-center font-semibold',
+          'inline-flex items-center justify-center font-medium group',
           'focus:outline-none focus-visible:ring',
           'transition duration-100',
-          'underline decoration-current hover:decoration-white/0 active:decoration-current disabled:hover:decoration-current',
+          'disabled:cursor-not-allowed',
           //#region  //*=========== Size ===========
-          size === 'sm' && 'text-xs md:text-sm',
-          size === 'base' && 'text-sm  md:text-base',
+          size === 'small' && 'text-xs md:text-sm gap-1.5',
+          size === 'base' && 'text-sm  md:text-mid gap-2',
+          size === 'large' && 'text-mid md:text-base gap-2.5',
           //#endregion  //*======== Size ===========
+
           //#region  //*=========== Variant ===========
-          variant === 'primary' && [
-            'text-primary-500 hover:text-primary-600 active:text-primary-700',
-            'focus-visible:ring-primary-400',
-            'disabled:text-primary-400',
-          ],
-          variant === 'secondary' && [
-            'text-secondary-500 hover:text-secondary-600 active:text-secondary-700',
-            'focus-visible:ring-secondary-400',
-            'disabled:text-secondary-400',
-          ],
           variant === 'basic' && [
-            'focus-visible:ring-gray-400',
-            'disabled:text-gray-300',
+            'text-base-black hover:text-base-dark active:text-base-dark',
+            'underline decoration-transparent hover:decoration-base-black',
+            'focus-visible:ring-base-secondary',
+            'disabled:text-base-icon disabled:decoration-transparent',
           ],
-          variant === 'white' && [
-            'text-white',
-            'focus-visible:ring-white',
-            'disabled:text-gray-300',
+          variant === 'primary' && [
+            'text-blue-600 hover:text-blue-700 active:text-blue-800',
+            'underline decoration-transparent hover:decoration-blue-500',
+            'focus-visible:ring-blue-400',
+            'disabled:text-blue-300 disabled:decoration-transparent',
           ],
           variant === 'danger' && [
-            'text-red-500 hover:text-red-600 active:text-red-600',
-            'focus-visible:ring-red-300',
-            'disabled:text-red-300',
+            'text-red-500 hover:text-red-600 active:text-red-700',
+            'underline decoration-transparent hover:decoration-red-400',
+            'focus-visible:ring-red-400',
+            'disabled:text-red-300 disabled:decoration-transparent',
           ],
-          'disabled:cursor-not-allowed disabled:brightness-105',
           //#endregion  //*======== Variant ===========
           className,
         )}
         {...rest}
       >
-        {children}
+        {Icon && <Icon className={clsxm(iconClassName)} />}
+        {LeftIcon && !Icon && <LeftIcon className={clsxm(leftIconClassName)} />}
+        {!Icon && <div className={clsxm(textClassName)}>{children}</div>}
+        {RightIcon && !Icon && (
+          <RightIcon className={clsxm(rightIconClassName)} />
+        )}
       </button>
     );
   },

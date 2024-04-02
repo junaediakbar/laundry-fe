@@ -3,6 +3,12 @@ module.exports = {
   singleQuote: true,
   jsxSingleQuote: true,
   tabWidth: 2,
-  semi: true,
-  trailingComma: 'all',
+  overrides: [
+    {
+      files: '*.mdx',
+      options: {
+        tabWidth: 2,
+      },
+    },
+  ],
 };

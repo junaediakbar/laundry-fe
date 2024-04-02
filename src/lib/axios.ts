@@ -1,20 +1,49 @@
 import axios, { AxiosError } from 'axios';
+import { GetServerSidePropsContext } from 'next';
+import Cookies from 'universal-cookie';
 
-import { UninterceptedApiError } from '@/types/api';
+import { getToken } from '@/lib/cookies';
 
-const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/v1',
+import { ApiError } from '@/types/api';
+
+export const baseUrl = 'https://laundry-api-five.vercel.app/';
+const isServer = () => {
+  return typeof window === 'undefined';
+};
+let context = <GetServerSidePropsContext>{};
+
+export const api = axios.create({
+  baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: false,
 });
 
+api.defaults.withCredentials = false;
+
 api.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('token');
   if (config.headers) {
-    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    let token: string | undefined;
+
+    if (isServer()) {
+      if (!context)
+        throw 'Api Context not found. You must call `setApiContext(context)` before calling api on server-side';
+
+      const cookies = new Cookies(context.req?.headers.cookie);
+      /** Get cookies from context if server side */
+      token = cookies.get('@example/token');
+    } else {
+      /** Get cookies from context if server side */
+      token = getToken();
+    }
+    if (token === undefined) {
+      token = localStorage.getItem('token') as string;
+    }
+
+    config.headers.Authorization = token ? token : '';
   }
+
   return config;
 });
 
@@ -22,7 +51,7 @@ api.interceptors.response.use(
   (config) => {
     return config;
   },
-  (error: AxiosError<UninterceptedApiError>) => {
+  (error: AxiosError<ApiError>) => {
     // parse error
     if (error.response?.data.message) {
       return Promise.reject({
@@ -34,7 +63,7 @@ api.interceptors.response.use(
             message:
               typeof error.response.data.message === 'string'
                 ? error.response.data.message
-                : Object.values(error.response.data.message)[0][0],
+                : Object.values(error.response.data.message)[0],
           },
         },
       });
@@ -42,5 +71,13 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+/**
+ * Must be set when calling api on server side
+ */
+export const setApiContext = (_context: GetServerSidePropsContext) => {
+  context = _context;
+  return;
+};
 
 export default api;

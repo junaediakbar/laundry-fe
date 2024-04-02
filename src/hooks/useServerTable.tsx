@@ -2,25 +2,25 @@ import { PaginationState, SortingState } from '@tanstack/react-table';
 import * as React from 'react';
 
 type useServerTableProps<T extends object> = {
-  pageSize?: number;
-  sort?: {
+  limit?: number;
+  sortBy?: {
     key: Extract<keyof T, string>;
     type: 'asc' | 'desc';
   };
 };
 
 export default function useServerTable<T extends object>({
-  pageSize = 10,
-  sort,
+  limit = 10,
+  sortBy,
 }: useServerTableProps<T> = {}) {
   const [globalFilter, setGlobalFilter] = React.useState('');
 
   const [sorting, setSorting] = React.useState<SortingState>(
-    sort
+    sortBy
       ? [
           {
-            id: sort.key,
-            desc: sort.type === 'desc',
+            id: sortBy.key,
+            desc: sortBy.type === 'desc',
           },
         ]
       : [],
@@ -28,7 +28,7 @@ export default function useServerTable<T extends object>({
 
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize,
+    pageSize: limit,
   });
 
   return {

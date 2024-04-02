@@ -17,8 +17,6 @@ import TBody from '@/components/table/TBody';
 import THead from '@/components/table/THead';
 import TOption from '@/components/table/TOption';
 
-import { PaginatedApiResponse } from '@/types/api';
-
 export type ServerTableState = {
   globalFilter: string;
   pagination: PaginationState;
@@ -36,7 +34,16 @@ type ServerTableProps<T extends object> = {
   data: T[];
   header?: React.ReactNode;
   isLoading: boolean;
-  meta: PaginatedApiResponse<T>['meta'] | undefined;
+  meta:
+    | {
+        total?: number;
+        currentPages?: number;
+        limit?: number;
+        maxPages?: number;
+        from?: number;
+        to?: number;
+      }
+    | undefined;
   tableState: ServerTableState;
   setTableState: SetServerTableState;
   omitSort?: boolean;
@@ -59,7 +66,7 @@ export default function ServerTable<T extends object>({
   const table = useReactTable({
     data,
     columns,
-    pageCount: meta?.last_page,
+    pageCount: meta?.maxPages,
     state: {
       ...tableState,
     },

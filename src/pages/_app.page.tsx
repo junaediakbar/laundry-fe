@@ -3,16 +3,16 @@ import {
   QueryClientProvider,
   QueryOptions,
 } from '@tanstack/react-query';
-import { AppProps } from 'next/app';
-import Router from 'next/router';
+import type { AppProps } from 'next/app';
+import { Router } from 'next/router';
 import nProgress from 'nprogress';
+import { Toaster } from 'react-hot-toast';
 
-import '@/styles/nprogress.css';
 import '@/styles/globals.css';
+import '@/styles/nprogress.css';
 
 import api from '@/lib/axios';
-
-import DismissableToast from '@/components/DismissableToast';
+import { inter } from '@/lib/font';
 
 Router.events.on('routeChangeStart', nProgress.start);
 Router.events.on('routeChangeError', nProgress.done);
@@ -31,15 +31,13 @@ const queryClient = new QueryClient({
   },
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <div>
-        <DismissableToast />
+      <div className={inter.className}>
+        <Toaster />
         <Component {...pageProps} />
       </div>
     </QueryClientProvider>
   );
 }
-
-export default MyApp;

@@ -26,6 +26,7 @@ type DatePickerProps = {
 } & Omit<ReactDatePickerProps, 'onChange'>;
 
 export default function DatePicker({
+  dateFormat = 'dd/MM/yyyy',
   validation,
   label,
   id,
@@ -88,7 +89,7 @@ export default function DatePicker({
                 showYearDropdown
                 dropdownMode='select'
                 openToDate={value ? new Date(value) : defaultDate}
-                dateFormat='dd/MM/yyyy'
+                dateFormat={dateFormat ?? 'dd/MM/yyyy'}
                 readOnly={readOnly}
                 disabled={disabled}
                 {...rest}
