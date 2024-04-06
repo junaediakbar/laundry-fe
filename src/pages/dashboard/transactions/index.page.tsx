@@ -16,6 +16,8 @@ import ServerTable from '@/components/table/ServerTable';
 import Tag from '@/components/tag/Tag';
 import Typography from '@/components/typography/Typography';
 
+import { getLabelService } from '@/constant/services';
+
 import { PaginatedApiResponse, Transaction } from '@/types/api';
 
 export default WithAuth(TransactionsPage, ['admin']);
@@ -34,20 +36,22 @@ function TransactionsPage() {
         accessorKey: 'name',
         header: 'Nama',
       },
-      {
-        accessorKey: 'address',
-        header: 'Alamat',
-      },
+
       {
         accessorKey: 'notaId',
         header: 'No. Nota',
       },
       {
-        accessorKey: 'cashier',
-        header: 'Kasir',
+        accessorKey: 'service',
+        header: 'Layanan',
+        cell: (props) => {
+          const service = props.getValue() as string;
+          return <Tag color='secondary'>{getLabelService(service)}</Tag>;
+        },
       },
       {
         accessorKey: 'weight',
+        header: 'Berat(kg)',
         cell: (props) => {
           const weight = props.getValue() as string;
           return `${weight} kg`;
@@ -65,10 +69,6 @@ function TransactionsPage() {
         },
       },
       {
-        accessorKey: 'noTelp',
-        header: 'No. Telp',
-      },
-      {
         accessorKey: 'dateIn',
         header: 'Tanggal Masuk',
         cell: (props) => {
@@ -77,9 +77,12 @@ function TransactionsPage() {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
           });
         },
       },
+
       {
         accessorKey: 'dateDone',
         header: 'Tanggal Selesai',
@@ -89,15 +92,29 @@ function TransactionsPage() {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
           });
         },
       },
       {
         accessorKey: 'dateOut',
         header: 'Tanggal Keluar',
+        cell: (props) => {
+          const date = new Date(props.getValue() as string);
+          if (!date || props.getValue() == null) return 'Belum Diambil';
+          return date.toLocaleDateString('id-ID', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+        },
       },
       {
         accessorKey: 'status',
+        header: 'Status Pembayaran',
         cell: (props) => (
           <Tag
             color={

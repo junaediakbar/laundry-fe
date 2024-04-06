@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router'; // useRouter  from 'next/router';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import api from '@/lib/axios';
 import { setToken } from '@/lib/cookies';
@@ -14,36 +14,27 @@ import Seo from '@/components/Seo';
 
 import useAuthStore from '@/store/useAuthStore';
 
-import { ApiResponse } from '@/types/api';
-import { User } from '@/types/auth';
-
-export type LoginForm = {
+export type LoginRequestType = {
   email: string;
   password: string;
-};
-
-type LoginResponse = {
-  user: User;
-  message: string;
-  token: string;
 };
 
 export default function LoginPage() {
   const login = useAuthStore.useLogin();
   const router = useRouter();
-  const methods = useForm<LoginForm>({
+  const methods = useForm<LoginRequestType>({
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
-  const { mutateAsync: loginUser, isLoading: loginIsLoading } =
-    useMutationToast<ApiResponse<LoginResponse>, LoginForm>(
-      useMutation((data) => api.post('/auth/login', data)),
-    );
-  const onSubmit: SubmitHandler<LoginForm> = (data: LoginForm) => {
-    loginUser(data).then((res) => {
-      const token = res.data.token || '';
-      setToken(token);
-      api.get<ApiResponse<User>>('/auth/info').then((res) => {
+  const { mutateAsync: postLogin, isLoading } = useMutationToast<
+    void,
+    LoginRequestType
+  >(
+    useMutation((data) => {
+      return api.post('/auth/login', data).then(async (res) => {
+        const token = res.data.token || '';
+        setToken(token);
+
         login(res.data.data, token);
         router.replace(
           res.data.data.role === 'user'
@@ -51,8 +42,18 @@ export default function LoginPage() {
             : '/dashboard/admin',
         );
       });
-    });
+    }),
+    {
+      success: 'Berhasil masuk',
+    },
+  );
+
+  const onSubmit = async (data: LoginRequestType) => {
+    // eslint-disable-next-line no-console
+    console.log(data);
+    await postLogin(data);
   };
+
   return (
     <Layout>
       <Seo title='Login' />
@@ -86,7 +87,7 @@ export default function LoginPage() {
               />
               <Button
                 type='submit'
-                isLoading={loginIsLoading}
+                isLoading={isLoading}
                 className='w-full !mt-6'
               >
                 Continue

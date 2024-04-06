@@ -10,7 +10,6 @@ import { defaultToastMessage } from '@/lib/constant';
 
 import Button from '@/components/buttons/Button';
 import IconButton from '@/components/buttons/IconButton';
-import PdfGenerator from '@/components/fetch/PDFGenerator';
 import Input from '@/components/forms/Input';
 import TextArea from '@/components/forms/TextArea';
 import DashboardLayout from '@/components/layout/dashboard/DashboardLayout';
@@ -31,10 +30,6 @@ export default function CreateCustomerPage() {
     mode: 'onTouched',
   });
 
-  const generatePdf = () => {
-    PdfGenerator(detailCustomer?.data as Transaction);
-  };
-
   //Watch ALl Records Transaction
 
   //Set initial values
@@ -52,7 +47,6 @@ export default function CreateCustomerPage() {
       api.put(`/customer/${detailCustomer?.data.id}`, data).then((_) => {
         return router.back();
       }),
-
       {
         ...defaultToastMessage,
         success: 'Berhasil! Menambahkan data',
@@ -93,16 +87,10 @@ export default function CreateCustomerPage() {
                     id='address'
                     label='Alamat'
                     placeholder='Alamat Customer'
-                    validation={{ required: 'Address must be filled' }}
+                    validation={{}}
                   />
                 </div>
-                <Button
-                  onClick={generatePdf}
-                  className='mt-6 block w-full'
-                  variant='secondary'
-                >
-                  Download PDF
-                </Button>
+
                 <Button type='submit' className='mt-3 block w-full'>
                   Buat Transaksi
                 </Button>

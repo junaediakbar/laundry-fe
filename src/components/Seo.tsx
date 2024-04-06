@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import { openGraph } from '@/lib/helper';
 
 const defaultMeta = {
-  title: 'Aether Design System',
-  siteName: 'Aether Design System',
+  title: 'Trees Clean Laundry',
+  siteName: 'Trees Clean Laundry',
   description: 'Design system used on projects',
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: 'https://aether.thcl.dev',
+  url: 'https://trees-clean-laundry-fe.vercel.app/',
   type: 'website',
   robots: 'follow, index',
   /**

@@ -18,6 +18,13 @@ Router.events.on('routeChangeStart', nProgress.start);
 Router.events.on('routeChangeError', nProgress.done);
 Router.events.on('routeChangeComplete', nProgress.done);
 
+import { id } from 'date-fns/locale';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+
+registerLocale('id', id);
+
+setDefaultLocale('id');
+
 const defaultQueryFn = async ({ queryKey }: QueryOptions) => {
   const { data } = await api.get(`${queryKey?.[0]}`);
   return data;

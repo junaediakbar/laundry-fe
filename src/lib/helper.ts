@@ -35,3 +35,7 @@ export function getFromSessionStorage(key: string): string | null {
   }
   return null;
 }
+
+export function trimHttps(url: string) {
+  return url.replace(/^https?:\/\//, '');
+}

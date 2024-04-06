@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 
 import { getToken } from '@/lib/cookies';
 
-import { ApiError } from '@/types/api';
+import { ApiResponse, UninterceptedApiErrorData } from '@/types/api';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -52,19 +52,19 @@ api.interceptors.response.use(
   (config) => {
     return config;
   },
-  (error: AxiosError<ApiError>) => {
+  (error: AxiosError<ApiResponse<UninterceptedApiErrorData>>) => {
     // parse error
-    if (error.response?.data.message) {
+    if (error.response?.status != 200) {
       return Promise.reject({
         ...error,
         response: {
           ...error.response,
           data: {
-            ...error.response.data,
-            message:
-              typeof error.response.data.message === 'string'
-                ? error.response.data.message
-                : Object.values(error.response.data.message)[0],
+            ...error.response?.data,
+            error:
+              typeof error.response?.data === 'string'
+                ? error.response?.data
+                : Object.values(error.response?.data?.data ?? '')[0],
           },
         },
       });

@@ -1,9 +1,11 @@
 export const getDateFormatted = (date: string) => {
   const number = new Date(date);
+
   return number.toLocaleDateString('id-ID', {
     day: '2-digit',
     month: 'long',
     year: 'numeric',
+    timeZone: 'UTC',
   });
 };
 

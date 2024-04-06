@@ -1,10 +1,11 @@
 import { Search, XCircle } from 'lucide-react';
-import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import logger from '@/lib/logger';
 
 import Button from '@/components/buttons/Button';
+import { CopyButton } from '@/components/buttons/CopyButton';
+import CopyBox from '@/components/CopyBox';
 import Checkbox from '@/components/forms/Checkbox';
 import DatePicker from '@/components/forms/DatePicker';
 import DropzoneInput from '@/components/forms/DropzoneInput';
@@ -173,6 +174,11 @@ export default function FormSandbox() {
               <p className='text-sm text-gray-800'>
                 Check console after submit
               </p>
+              <div className='mt-8'>
+                <CopyButton text='' id='copy-button' />
+                <CopyButton text='' withInput id='copy-input' />
+                <CopyBox link='' />
+              </div>
             </form>
           </FormProvider>
         </div>

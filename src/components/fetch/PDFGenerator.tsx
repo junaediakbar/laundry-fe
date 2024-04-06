@@ -16,7 +16,7 @@ const PdfGenerator = (data: Transaction) => {
   function downloadInvoice() {
     const doc = new jsPDF();
     const paymentStatus =
-      data.datePayment != '' && data.datePayment
+      data.datePayment != '' && data.datePayment != undefined
         ? 'Dibayar Pada: ' + getDateFormatted(data.datePayment)
         : 'Belum Lunas';
     doc.addImage(LogoBase64, 'JPEG', 10, 5, 20, 20);

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -30,10 +30,11 @@ interface TransactionData {
   dateDone: string;
   datePayment: string;
   weight: string;
-  service: number;
+  service: string;
   price: string;
   cashier: string;
   status: string;
+  perprice: string;
 }
 
 export default function CreateTransactionPage() {
@@ -46,12 +47,13 @@ export default function CreateTransactionPage() {
   });
 
   const date = moment();
-  const getDateNowFormatted = date.format('DD/MM/YYYY HH:mm');
-  const [price, setPrice] = React.useState('0');
+  const getDateNowFormatted = date.toISOString();
 
   const service = methods.watch('service');
   const author = methods.watch('cashier');
   const status = methods.watch('status');
+  const weight = methods.watch('weight');
+  const perprice = methods.watch('perprice');
 
   useEffect(() => {
     if (status === 'lunas') {
@@ -60,6 +62,19 @@ export default function CreateTransactionPage() {
       methods.setValue('datePayment', '');
     }
   }, [status, methods, getDateNowFormatted]);
+
+  useEffect(() => {
+    if (service !== 'lainnya') {
+      methods.setValue('perprice', getServicePrice(service).toString());
+    }
+    if (weight !== '' && perprice !== '') {
+      const totalPrice = Number(weight) * Number(perprice);
+      methods.setValue('price', totalPrice.toString());
+    } else {
+      methods.setValue('price', '0');
+    }
+    return () => {};
+  }, [service, weight, perprice, methods]);
 
   const [passwordCashier, setPasswordCashier] = useState('');
 
@@ -97,7 +112,7 @@ export default function CreateTransactionPage() {
     }
     toast.promise(
       api.post('/transaction', data).then((_) => {
-        return router.back();
+        return router.replace('/dashboard/transactions');
       }),
 
       {
@@ -127,23 +142,6 @@ export default function CreateTransactionPage() {
                   label='Pilih Customer'
                   placeholder='Pilih Customer'
                 />
-                {/* <SearchableSelectInput
-                  id='name'
-                  onInputChange={(e: string) => setSearchQuery(e)}
-                  label='Pilih Customer'
-                  placeholder='Pilih Customer'
-                  options={
-                    searchResults.map((v) => {
-                      return {
-                        label: v.name + v.noTelp,
-                        value: v.id.toString(),
-                      };
-                    }) as { value: string; label: string }[]
-                  }
-                  value={searchQuery}
-                  inputValue={searchQuery}
-                  validation={{}}
-                /> */}
               </form>
             </FormProvider>
 
@@ -157,7 +155,7 @@ export default function CreateTransactionPage() {
                     <Input
                       id='notaId'
                       label='No. Nota'
-                      placeholder='M-...'
+                      placeholder='Nomor Nota'
                       validation={{}}
                     />
                     <SearchableSelectInput
@@ -212,6 +210,7 @@ export default function CreateTransactionPage() {
                   />
                   <SearchableSelectInput
                     id='service'
+                    type='text'
                     label='Pilih Layanan'
                     placeholder='Pilih Layanan'
                     options={services.map(
@@ -229,22 +228,15 @@ export default function CreateTransactionPage() {
                         ? false
                         : true
                     }
-                    id='per-price'
-                    onChange={(e) => setPrice(e.target.value)}
+                    id='perprice'
                     label='Harga/kg'
                     placeholder='Harga Persatuan(kg)'
                     validation={{}}
-                    value={
-                      (service as unknown as string) === 'lainnya'
-                        ? price
-                        : getServicePrice(service as unknown as string)
-                    }
                   />
 
                   <Input
                     id='weight'
                     label='Berat(kg)'
-                    type='number'
                     placeholder='Berat Pakaian(kg)'
                     validation={{
                       pattern: {

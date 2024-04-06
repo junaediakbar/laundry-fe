@@ -10,6 +10,8 @@ export type ApiError = {
   message: string;
 };
 
+export type UninterceptedApiErrorData = Record<string, string[]>;
+
 export type UninterceptedApiError = {
   message: string | Record<string, string[]>;
 };
@@ -40,6 +42,7 @@ export interface Transaction {
   weight: string;
   service: string;
   price: string;
+  perprice: string;
   name: string;
   noTelp: string;
   address: string;
@@ -50,6 +53,7 @@ export interface Transaction {
   dateOut?: string;
   datePayment: string;
   status: string;
+  statusTaken: string;
   deletedAt?: string;
   notes: string;
   cashier: string;

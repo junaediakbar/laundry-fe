@@ -7,7 +7,7 @@ export const services = [
   {
     name: 'Cuci Setrika',
     value: 'cuci-setrika',
-    price: 7000,
+    price: 8000,
   },
   {
     name: 'Setrika',
