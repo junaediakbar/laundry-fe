@@ -27,7 +27,7 @@ export default function CreateCustomerPage() {
   const onSubmitForm: SubmitHandler<Customer> = (data) => {
     toast.promise(
       api.post('/customer', data).then((_) => {
-        return router.back();
+        return router.replace('/dashboard/admin');
       }),
 
       {
