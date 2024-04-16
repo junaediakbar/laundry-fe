@@ -97,14 +97,14 @@ function HomeDashboardPage() {
 
   const onSubmit = async (data: { date: string }) => {
     const res = await getDataToday(data);
-    let sum = 0;
-    res.data.data.dataPayment.map((v) => (sum += parseInt(v.amountPayment)));
-    PDFRecapGenerator(res.data.data.dataPayment, {
+
+    PDFRecapGenerator(res.data.data.data, {
       totalPrice: totalPrice.toString(),
       totalWeight: totalWeight.toString(),
       totalDeposit: totalDeposit.toString(),
       totalAmountPayment: totalAmountPayment.toString(),
-      totalAmountPaymentToday: sum.toString(),
+      totalAmountPaymentToday: totalAmountToday.toString(),
+      dateStart: new Date(date).toISOString(),
     });
   };
 

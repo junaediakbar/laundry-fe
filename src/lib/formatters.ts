@@ -9,6 +9,18 @@ export const getDateFormatted = (date: string) => {
   });
 };
 
+export function formatDate(date: string) {
+  const d = new Date(date);
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
 export const getPriceFormmated = (price: number) => {
   let str = new Intl.NumberFormat('id-ID', {
     style: 'currency',

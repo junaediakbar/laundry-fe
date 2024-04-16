@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-import { getPriceFormmated } from '@/lib/formatters';
+import { formatDate, getPriceFormmated } from '@/lib/formatters';
 
 import { LogoBase64 } from '@/components/fetch/logo';
 
@@ -15,6 +15,7 @@ interface DataTotalResponse {
   totalDeposit: string;
   totalAmountPayment: string;
   totalAmountPaymentToday: string;
+  dateStart: string;
 }
 const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
   const listData = [
@@ -145,7 +146,7 @@ const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
       theme: 'plain',
     });
 
-    return doc.save('invoice');
+    return doc.save(`REPORT-${formatDate(summary.dateStart)}`);
   }
   downloadInvoice();
 };
