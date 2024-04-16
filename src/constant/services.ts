@@ -64,6 +64,11 @@ export const services = [
     value: 'Karpet',
     price: 15000,
   },
+  {
+    name: 'lainnya',
+    value: 'Lainnya',
+    price: 0,
+  },
 ];
 
 export const getServicePrice = (selectedService: string) => {

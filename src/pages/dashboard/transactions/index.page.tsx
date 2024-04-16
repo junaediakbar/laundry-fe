@@ -54,7 +54,7 @@ function TransactionsPage() {
         header: 'Berat(kg)',
         cell: (props) => {
           const weight = props.getValue() as string;
-          return `${weight} kg`;
+          return `${weight}`;
         },
       },
       {
