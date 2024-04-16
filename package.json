@@ -30,6 +30,7 @@
     "axios": "1.6.3",
     "clsx": "^2.0.0",
     "copy-to-clipboard": "^3.3.3",
+    "export-to-csv": "^1.2.4",
     "immer": "^9.0.21",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",

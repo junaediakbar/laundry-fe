@@ -41,6 +41,7 @@ export interface Transaction {
   notaId: string;
   weight: string;
   service: string;
+  amountPayment: string;
   price: string;
   perprice: string;
   name: string;

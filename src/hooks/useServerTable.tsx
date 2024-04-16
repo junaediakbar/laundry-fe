@@ -1,4 +1,8 @@
-import { PaginationState, SortingState } from '@tanstack/react-table';
+import {
+  ColumnFiltersState,
+  PaginationState,
+  SortingState,
+} from '@tanstack/react-table';
 import * as React from 'react';
 
 type useServerTableProps<T extends object> = {
@@ -14,6 +18,11 @@ export default function useServerTable<T extends object>({
   sortBy,
 }: useServerTableProps<T> = {}) {
   const [globalFilter, setGlobalFilter] = React.useState('');
+
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  ); // can set
+  const [statusFilter, setStatusFilter] = React.useState('');
 
   const [sorting, setSorting] = React.useState<SortingState>(
     sortBy
@@ -34,13 +43,17 @@ export default function useServerTable<T extends object>({
   return {
     tableState: {
       globalFilter,
+      statusFilter,
       pagination,
       sorting,
+      columnFilters,
     },
     setTableState: {
       setGlobalFilter,
+      setStatusFilter,
       setPagination,
       setSorting,
+      setColumnFilters,
     },
   };
 }

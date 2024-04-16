@@ -37,9 +37,7 @@ export default function LoginPage() {
 
         login(res.data.data, token);
         router.replace(
-          res.data.data.role === 'user'
-            ? '/register/documents'
-            : '/dashboard/admin',
+          res.data.data.role === 'user' ? '/register/documents' : '/dashboard',
         );
       });
     }),
@@ -49,8 +47,6 @@ export default function LoginPage() {
   );
 
   const onSubmit = async (data: LoginRequestType) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
     await postLogin(data);
   };
 

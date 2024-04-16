@@ -24,6 +24,7 @@ import { ApiResponse, Customer } from '@/types/api';
 
 interface TransactionData {
   name: string;
+  notaId: string;
   noTelp: string;
   address: string;
   dateIn: string;
@@ -35,6 +36,7 @@ interface TransactionData {
   cashier: string;
   status: string;
   perprice: string;
+  amountPayment: string;
 }
 
 export default function CreateTransactionPage() {
@@ -46,22 +48,32 @@ export default function CreateTransactionPage() {
     mode: 'onTouched',
   });
 
+  const [notaIsDisabed, setNotaIsDisabled] = useState(false);
+
   const date = moment();
+  const tommorrowDate = moment().add(1, 'days');
   const getDateNowFormatted = date.toISOString();
+  const getTommorrowFormatted = tommorrowDate.toISOString();
 
   const service = methods.watch('service');
   const author = methods.watch('cashier');
   const status = methods.watch('status');
   const weight = methods.watch('weight');
   const perprice = methods.watch('perprice');
+  const price = methods.watch('price');
 
   useEffect(() => {
     if (status === 'lunas') {
       methods.setValue('datePayment', getDateNowFormatted);
-    } else {
-      methods.setValue('datePayment', '');
+      methods.setValue('amountPayment', price);
     }
-  }, [status, methods, getDateNowFormatted]);
+    if (status === 'belum-bayar') {
+      methods.setValue('amountPayment', '0');
+      methods.setValue('datePayment', '');
+    } else {
+      methods.setValue('datePayment', getDateNowFormatted);
+    }
+  }, [status, methods, price, getDateNowFormatted]);
 
   useEffect(() => {
     if (service !== 'lainnya') {
@@ -76,6 +88,18 @@ export default function CreateTransactionPage() {
     return () => {};
   }, [service, weight, perprice, methods]);
 
+  useEffect(() => {
+    getLatestNota().then((res) => {
+      if (res?.data) {
+        methods.setValue('notaId', (parseInt(res.data.notaId) + 1).toString());
+        setNotaIsDisabled(true);
+      } else {
+        methods.setValue('notaId', '');
+        setNotaIsDisabled(false);
+      }
+    });
+  }, [methods]);
+
   const [passwordCashier, setPasswordCashier] = useState('');
 
   const nameCustomer = methods2.watch('name');
@@ -83,7 +107,17 @@ export default function CreateTransactionPage() {
   const getCustomer = async (id: string) => {
     try {
       const res = await api.get<ApiResponse<Customer>>(`/customer/${id}`);
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
 
+  const getLatestNota = async () => {
+    try {
+      const res = await api.get<ApiResponse<TransactionData>>(
+        '/transaction/recap/latest',
+      );
       return res.data;
     } catch (e) {
       return null;
@@ -153,6 +187,7 @@ export default function CreateTransactionPage() {
                 <div className='space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-y-3 md:gap-x-8 mb-10'>
                   <div className='space-y-2 md:space-y-0 md:grid md:grid-cols-3 md:col-span-2 gap-4'>
                     <Input
+                      disabled={notaIsDisabed}
                       id='notaId'
                       label='No. Nota'
                       placeholder='Nomor Nota'
@@ -199,13 +234,13 @@ export default function CreateTransactionPage() {
                   <Input
                     id='noTelp'
                     label='No. Telp'
-                    placeholder='08182'
+                    placeholder='Nomor Telepon'
                     validation={{}}
                   />
                   <Input
                     id='address'
                     label='Alamat'
-                    placeholder='Jl. ....'
+                    placeholder='Alamat Pelanggan'
                     validation={{}}
                   />
                   <SearchableSelectInput
@@ -215,8 +250,8 @@ export default function CreateTransactionPage() {
                     placeholder='Pilih Layanan'
                     options={services.map(
                       (v: { name: string; value: string }) => ({
-                        value: v.value,
-                        label: v.name,
+                        value: v.name,
+                        label: v.value,
                       }),
                     )}
                     validation={{ required: 'Select Input must be filled' }}
@@ -273,7 +308,7 @@ export default function CreateTransactionPage() {
                     id='dateDone'
                     label='Tanggal Perkiraan Selesai'
                     placeholder='dd/MM/yyyy HH:mm'
-                    defaultYear={2024}
+                    defaultValue={getTommorrowFormatted}
                     dateFormat='dd/MM/yyyy HH:mm'
                     validation={{
                       required: 'Tanggal Perkiraan Selesai harus diisi',
@@ -302,7 +337,7 @@ export default function CreateTransactionPage() {
                     validation={{ required: 'Select Input must be filled' }}
                   />
                   <DatePicker
-                    disabled={status === 'lunas' ? true : false}
+                    disabled={true}
                     showTimeSelect={true}
                     id='datePayment'
                     label='Tanggal Pembayaran'
@@ -312,6 +347,14 @@ export default function CreateTransactionPage() {
                     dateFormat='dd/MM/yyyy HH:mm'
                     validation={{}}
                   />
+
+                  <Input
+                    id='amountPayment'
+                    label='Total yang telah dibayar'
+                    placeholder='Total yang sudah dibayar'
+                    validation={{}}
+                  />
+
                   <div className='col-span-2'>
                     <TextArea id='notes' label='Catatan' />
                   </div>

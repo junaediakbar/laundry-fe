@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { IconType } from 'react-icons';
 import {
+  AiOutlineHome,
   AiOutlineMoneyCollect,
-  AiOutlineUser,
   AiOutlineUsergroupAdd,
 } from 'react-icons/ai';
 import { FiChevronDown, FiSearch } from 'react-icons/fi';
@@ -38,10 +38,11 @@ type NavigationProps = React.ComponentPropsWithoutRef<'nav'>;
 const navigations: Navigations = [
   [
     {
-      name: 'Profile',
-      href: '/dashboard/profile',
-      icon: AiOutlineUser,
+      name: 'Home',
+      href: '/dashboard',
+      icon: AiOutlineHome,
     },
+
     {
       name: 'Document',
       href: '/dashboard',
@@ -60,10 +61,11 @@ const navigations: Navigations = [
   ],
   [
     {
-      name: 'Profile',
-      href: '/dashboard/profile',
-      icon: AiOutlineUser,
+      name: 'Home',
+      href: '/dashboard',
+      icon: AiOutlineHome,
     },
+
     {
       name: 'Customers',
       href: '/dashboard/admin',

@@ -94,7 +94,7 @@ function DashboardAdminPage() {
   };
   return (
     <DashboardLayout>
-      <Seo title='Admin' />
+      <Seo title='Activities' />
       <div className='mt-2 space-y-4 px-10 '>
         <div className='flex gap-2 items-center'>
           <Typography variant='h2'>Data Aktivitas User</Typography>

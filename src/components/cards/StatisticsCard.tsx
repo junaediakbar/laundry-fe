@@ -20,7 +20,7 @@ type StatisticsCardProps = {
   iconClassName?: string;
   isLoading?: boolean;
   label: string;
-  value: number;
+  value: number | string;
   variant?: StatisticsCardVariant;
 } & React.ComponentPropsWithoutRef<'div'>;
 

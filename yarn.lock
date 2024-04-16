@@ -4264,6 +4264,11 @@ expect@^29.0.0, expect@^29.7.0:
     jest-message-util "^29.7.0"
     jest-util "^29.7.0"
 
+export-to-csv@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/export-to-csv/-/export-to-csv-1.2.4.tgz"
+  integrity sha512-mniFCil3DPLb4esJX00Nm6R77WbTMAqlzgYBlqN++QXZ2juNu19RMnRgmjuPH2pyRbrQvOieKg8zTp5lCwUFyQ==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz"

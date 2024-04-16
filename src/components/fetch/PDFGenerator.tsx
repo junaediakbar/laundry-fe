@@ -23,32 +23,6 @@ const PdfGenerator = (data: Transaction) => {
     doc.setLineWidth(1);
     doc.line(10, 30, 200, 30);
 
-    // autoTable(doc, {
-    //   body: [
-    //     [
-    //       {
-    //         content: 'Company brand',
-    //         styles: {
-    //           halign: 'left',
-    //           fontSize: 20,
-    //           textColor: '#ffffff',
-    //         },
-    //       },
-    //       {
-    //         content: 'Invoice',
-    //         styles: {
-    //           halign: 'right',
-    //           fontSize: 20,
-    //           textColor: '#ffffff',
-    //         },
-    //       },
-    //     ],
-    //   ],
-    //   theme: 'plain',
-    //   styles: {
-    //     fillColor: '#3366ff',
-    //   },
-    // });
     autoTable(doc, {
       startY: 6,
       margin: {

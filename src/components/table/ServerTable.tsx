@@ -1,5 +1,6 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
   getCoreRowModel,
   PaginationState,
   SortingState,
@@ -13,12 +14,14 @@ import clsxm from '@/lib/clsxm';
 
 import Filter from '@/components/table/Filter';
 import PaginationControl from '@/components/table/PaginationControl';
+import SelectFilter from '@/components/table/SelectFilter';
 import TBody from '@/components/table/TBody';
 import THead from '@/components/table/THead';
 import TOption from '@/components/table/TOption';
 
 export type ServerTableState = {
   globalFilter: string;
+  statusFilter: string;
   pagination: PaginationState;
   sorting: SortingState;
 };
@@ -27,6 +30,8 @@ type SetServerTableState = {
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
+  setStatusFilter: React.Dispatch<React.SetStateAction<string>>;
+  setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
 };
 
 type ServerTableProps<T extends object> = {
@@ -48,6 +53,7 @@ type ServerTableProps<T extends object> = {
   setTableState: SetServerTableState;
   omitSort?: boolean;
   withFilter?: boolean;
+  withSelectFilter?: boolean;
 } & React.ComponentPropsWithoutRef<'div'>;
 
 export default function ServerTable<T extends object>({
@@ -61,6 +67,7 @@ export default function ServerTable<T extends object>({
   setTableState,
   omitSort = false,
   withFilter = false,
+  withSelectFilter = false,
   ...rest
 }: ServerTableProps<T>) {
   const table = useReactTable({
@@ -74,6 +81,8 @@ export default function ServerTable<T extends object>({
       minSize: 0,
       size: 0,
     },
+
+    onColumnFiltersChange: setTableState.setColumnFilters,
     onGlobalFilterChange: setTableState.setGlobalFilter,
     onPaginationChange: setTableState.setPagination,
     onSortingChange: setTableState.setSorting,
@@ -90,7 +99,12 @@ export default function ServerTable<T extends object>({
           withFilter ? 'sm:justify-between' : 'sm:justify-end',
         )}
       >
-        {withFilter && <Filter table={table} />}
+        <div className='flex space-x-4'>
+          {withFilter && <Filter table={table} />}
+          {withSelectFilter && (
+            <SelectFilter columnName='status' table={table} />
+          )}
+        </div>
         <div className='flex items-center gap-3'>
           {Header}
           <TOption

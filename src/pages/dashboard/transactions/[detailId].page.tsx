@@ -21,6 +21,7 @@ import DatePicker from '@/components/forms/DatePicker';
 import Input from '@/components/forms/Input';
 import SearchableSelectInput from '@/components/forms/SearchableSelectInput';
 import TextArea from '@/components/forms/TextArea';
+import WithAuth from '@/components/hoc/WithAuth';
 import DashboardLayout from '@/components/layout/dashboard/DashboardLayout';
 import Seo from '@/components/Seo';
 import Typography from '@/components/typography/Typography';
@@ -32,7 +33,8 @@ import { checkPassword } from '@/constant/users';
 import { ApiResponse, Transaction } from '@/types/api';
 registerLocale('id', id);
 
-export default function CreateTransactionPage() {
+export default WithAuth(EditTransactionPage, ['admin']);
+function EditTransactionPage() {
   const router = useRouter();
   const { detailId } = router.query;
   const url = `/transaction/${detailId}`;
@@ -71,6 +73,7 @@ export default function CreateTransactionPage() {
         ...detailTransaction.data,
       });
     }
+
     if (detailTransaction?.data.dateOut !== null) {
       methods.setValue('dateOut', detailTransaction?.data.dateOut);
       methods.setValue('statusTaken', 'diambil');
@@ -105,7 +108,13 @@ export default function CreateTransactionPage() {
     } else {
       methods.setValue('perprice', detailTransaction?.data.perprice as string);
     }
-    if (status === 'lunas') {
+    if (status === 'lunas' || status === 'bayar-sebagian') {
+      if (status === 'lunas') {
+        methods.setValue(
+          'amountPayment',
+          detailTransaction?.data.price as string,
+        );
+      }
       methods.setValue(
         'datePayment',
         detailTransaction?.data.datePayment
@@ -120,6 +129,7 @@ export default function CreateTransactionPage() {
     status,
     methods,
     detailTransaction?.data.datePayment,
+    detailTransaction?.data.price,
     detailTransaction?.data.perprice,
     detailTransaction?.data.service,
   ]);
@@ -131,9 +141,9 @@ export default function CreateTransactionPage() {
         const getDateNowFormatted = date.toISOString() as string;
         methods.setValue('dateOut', getDateNowFormatted);
       } else {
-        methods.setValue('dateOut', '');
+        methods.setValue('dateOut', detailTransaction?.data.dateOut);
       }
-    } else {
+    } else if (statusTaken === 'belum-diambil') {
       methods.setValue('dateOut', '');
     }
   }, [methods, statusTaken, detailTransaction?.data.dateOut]);
@@ -189,23 +199,6 @@ export default function CreateTransactionPage() {
       },
       () => {},
     );
-  };
-
-  const onTakeLaundry = async () => {
-    if (!checkPassword(cashier, passwordCashier)) {
-      toast.error('Password salah');
-      return;
-    }
-    await toast.promise(
-      api.put(`/transaction/take/${detailTransaction?.data.id}`).then((_) => {
-        return;
-      }),
-      {
-        ...defaultToastMessage,
-        success: 'Berhasil! mengambil laundry',
-      },
-    );
-    return router.replace('/dashboard/transactions');
   };
 
   return (
@@ -283,12 +276,13 @@ export default function CreateTransactionPage() {
                   />
                   <SearchableSelectInput
                     id='service'
+                    type='text'
                     label='Pilih Layanan'
                     placeholder='Pilih Layanan'
                     options={services.map(
-                      (v: { value: string; name: string }) => ({
-                        value: v.value,
-                        label: v.name,
+                      (v: { name: string; value: string }) => ({
+                        value: v.name,
+                        label: v.value,
                       }),
                     )}
                     validation={{ required: 'Select Input must be filled' }}
@@ -402,6 +396,13 @@ export default function CreateTransactionPage() {
                     dateFormat='dd/MM/yyyy HH:mm'
                     validation={{}}
                   />
+
+                  <Input
+                    id='amountPayment'
+                    label='Total yang telah dibayar'
+                    placeholder='Total yang sudah dibayar'
+                    validation={{}}
+                  />
                   <div className='col-span-2 mb-3'>
                     <TextArea id='notes' label='Catatan' validation={{}} />
                   </div>
@@ -442,13 +443,6 @@ export default function CreateTransactionPage() {
                 </div>
                 <Button type='submit' className='mt-8 block w-full'>
                   Simpan Data
-                </Button>
-                <Button
-                  variant='warning'
-                  onClick={onTakeLaundry}
-                  className='mt-3 block w-full'
-                >
-                  Ambil Laundry
                 </Button>
               </form>
             </FormProvider>

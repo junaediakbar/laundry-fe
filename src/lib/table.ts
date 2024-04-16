@@ -27,7 +27,7 @@ export const buildPaginatedTableURL: BuildPaginationTableURL = ({
         limit: tableState.pagination.pageSize,
         page: tableState.pagination.pageIndex + 1,
         sortBy: tableState.sorting.length > 0 ? tableState.sorting[0].id : '',
-        type:
+        sortType:
           tableState.sorting.length > 0
             ? tableState.sorting[0].desc
               ? 'desc'

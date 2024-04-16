@@ -24,7 +24,7 @@ export default WithAuth(TransactionsPage, ['admin']);
 function TransactionsPage() {
   const router = useRouter();
   const { tableState, setTableState } = useServerTable<Transaction>({
-    sortBy: { key: 'name', type: 'desc' },
+    sortBy: { key: 'id', type: 'desc' },
   });
 
   const columns = React.useMemo<ColumnDef<Transaction>[]>(
@@ -154,6 +154,7 @@ function TransactionsPage() {
     tableState,
     additionalParam: {
       param: tableState.globalFilter,
+      status: tableState.columnFilters.find((v) => (v.id = 'status'))?.value,
     },
   });
   const { data: dataCustomer, isLoading } = useQuery<
@@ -172,7 +173,7 @@ function TransactionsPage() {
 
   return (
     <DashboardLayout>
-      <Seo templateTitle='Server Table' />
+      <Seo templateTitle='Transactions' />
 
       <main>
         <section>
@@ -187,6 +188,7 @@ function TransactionsPage() {
             </div>
             <ServerTable
               withFilter
+              withSelectFilter
               columns={columns}
               data={dataCustomer?.data ?? []}
               meta={meta}
