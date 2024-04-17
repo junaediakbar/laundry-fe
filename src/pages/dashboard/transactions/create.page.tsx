@@ -17,7 +17,11 @@ import DashboardLayout from '@/components/layout/dashboard/DashboardLayout';
 import Seo from '@/components/Seo';
 
 import REGEX from '@/constant/regex';
-import { getServicePrice, services } from '@/constant/services';
+import {
+  getServicePrice,
+  isServiceExpress,
+  services,
+} from '@/constant/services';
 import { checkPassword } from '@/constant/users';
 
 import { ApiResponse, Customer } from '@/types/api';
@@ -76,12 +80,49 @@ export default function CreateTransactionPage() {
   }, [status, methods, price, getDateNowFormatted]);
 
   useEffect(() => {
-    if (service !== 'lainnya') {
+    if (service !== 'lainnya' && !isServiceExpress(service)) {
       methods.setValue('perprice', getServicePrice(service).toString());
+    } else if (isServiceExpress(service)) {
+      methods.setValue('perprice', '1');
     }
-    if (weight !== '' && perprice !== '') {
+
+    if (weight !== '' && perprice !== '' && !isServiceExpress(service)) {
       const totalPrice = Number(weight) * Number(perprice);
       methods.setValue('price', totalPrice.toString());
+    } else if (isServiceExpress(service) && weight !== '' && perprice !== '') {
+      if (service === 'cuci-lipat-express') {
+        if (Number(weight) <= 3) {
+          const totalPrice = 3 * 8000 + 1000;
+          methods.setValue('price', totalPrice.toString());
+          const customPerPrice = Math.floor(
+            totalPrice / Number(weight),
+          ).toString();
+          methods.setValue('perprice', customPerPrice);
+        } else {
+          const totalPrice = 3 * 8000 + (Number(weight) - 3) * 8000 + 1000;
+          methods.setValue('price', totalPrice.toString());
+          const customPerPrice = Math.floor(
+            totalPrice / Number(weight),
+          ).toString();
+          methods.setValue('perprice', customPerPrice);
+        }
+      } else if (service === 'cuci-komplit-express') {
+        if (Number(weight) <= 3) {
+          const totalPrice = 3 * 12000 + 4000;
+          methods.setValue('price', totalPrice.toString());
+          const customPerPrice = Math.floor(
+            totalPrice / Number(weight),
+          ).toString();
+          methods.setValue('perprice', customPerPrice);
+        } else {
+          const totalPrice = 3 * 12000 + (Number(weight) - 3) * 12000 + 4000;
+          methods.setValue('price', totalPrice.toString());
+          const customPerPrice = Math.floor(
+            totalPrice / Number(weight),
+          ).toString();
+          methods.setValue('perprice', customPerPrice);
+        }
+      }
     } else {
       methods.setValue('price', '0');
     }
@@ -91,7 +132,7 @@ export default function CreateTransactionPage() {
   useEffect(() => {
     getLatestNota().then((res) => {
       if (res?.data) {
-        methods.setValue('notaId', (parseInt(res.data.notaId) + 1).toString());
+        methods.setValue('notaId', (Number(res.data.notaId) + 1).toString());
         setNotaIsDisabled(true);
       } else {
         methods.setValue('notaId', '');

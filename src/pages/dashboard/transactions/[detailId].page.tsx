@@ -96,6 +96,7 @@ function EditTransactionPage() {
   useEffect(() => {
     const date = moment();
     const getDateNowFormatted = date.toISOString() as string;
+
     if (service !== 'lainnya') {
       if (service === detailTransaction?.data.service) {
         methods.setValue(
