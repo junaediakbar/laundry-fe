@@ -94,7 +94,7 @@ const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
             },
           },
           {
-            content: getPriceFormmated(parseInt(summary.totalPrice)),
+            content: getPriceFormmated(Number(summary.totalPrice)),
             styles: {
               halign: 'right',
             },
@@ -108,7 +108,7 @@ const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
             },
           },
           {
-            content: getPriceFormmated(parseInt(summary.totalAmountPayment)),
+            content: getPriceFormmated(Number(summary.totalAmountPayment)),
             styles: {
               halign: 'right',
             },
@@ -122,7 +122,7 @@ const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
             },
           },
           {
-            content: getPriceFormmated(parseInt(summary.totalDeposit)),
+            content: getPriceFormmated(Number(summary.totalDeposit)),
             styles: {
               halign: 'right',
             },
