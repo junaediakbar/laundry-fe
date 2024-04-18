@@ -1,26 +1,57 @@
-# Aether Design System
+<div align="center">
+  <h1>Laundry Frontend</h1>
+  <p>🛒 Simple Laundry Management Website for Administrator built with NextJS and Typescript</p>
+</div>
 
-This design system is built using [ts-nextjs-tailwind-starter](https://github.com/theodorusclarence/ts-nextjs-tailwind-starter) with the [expansion pack](https://github.com/theodorusclarence/expansion-pack), then adjusted based on the needs of the project.
+## Features
 
-Aether serves as the building block for our projects. Feel free to use this design system for your projects.
+- 🔑 Role Based Authentication
+- 🛒 Transactions Management
+- 📦 Customers Management
+- 🧾 Log Activites tracking
+- 📂 Invoice Share and Download
 
-Expansions used:
+See the backend repository [here](https://github.com/junaediakbar/laundry-api)
 
-- [React Hook Form](https://github.com/theodorusclarence/expansion-pack#react-hook-form)
-- [Toast with React Query](https://github.com/theodorusclarence/expansion-pack#react-query)
-- [Dialog Manager with Zustand](https://github.com/theodorusclarence/expansion-pack#react-query)
-- [NProgress](https://github.com/theodorusclarence/expansion-pack#nprogress)
+## Getting Started
 
-## Motive
+1. Clone this repository
 
-We usually build a design system before the start of a project. Aether is an actual design system we use for our private projects, and we decided to open-source it.
+   ```bash
+   git clone https://github.com/junaediakbar/laundry-fe.git
+   ```
 
-## Creator
+2. Copy .env.example to .env
 
-- [Theodorus Clarence](https://github.com/theodorusclarence)
-- [Rizqi Tsani](https://github.com/rizqitsani)
-- [Wina Tungmiharja](https://github.com/winatungmiharja)
+3. Install dependencies
 
-## Attribution
+   ```bash
+   npm install
+   yarn
+   ```
 
-Design is mostly inspired by [moon.io](https://moon.io/), adjusted to our needs.
+4. Run it on your machine
+
+   ```bash
+   npm run dev
+   yarn dev
+   ```
+
+## Built With
+
+- NextJS 14
+- Typescript
+- headless/ui
+- radix/ui
+- react hook form
+- State management with [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- Manage table with [Tanstack](https://tanstack.com/table/v7/)
+- jspdf
+- Jest
+- Commit management with husky
+- Deploy with Vercel
+- Components UI mostly used [Aether Design System](https://github.com/theodorusclarence/aether-design-system)
+
+## Development Demo
+
+[Vercel Demo](https://trees-clean-laundry-fe.vercel.app/)
