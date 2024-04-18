@@ -27,7 +27,11 @@ import Seo from '@/components/Seo';
 import Typography from '@/components/typography/Typography';
 
 import REGEX from '@/constant/regex';
-import { getServicePrice, services } from '@/constant/services';
+import {
+  getServicePerPrice,
+  getServiceTotalPrice,
+  services,
+} from '@/constant/services';
 import { checkPassword } from '@/constant/users';
 
 import { ApiResponse, Transaction } from '@/types/api';
@@ -63,6 +67,7 @@ function EditTransactionPage() {
   const cashier = methods.watch('cashier');
   const status = methods.watch('status');
   const perprice = methods.watch('perprice');
+  const price = methods.watch('price');
   const weight = methods.watch('weight');
   const statusTaken = methods.watch('statusTaken');
 
@@ -83,38 +88,41 @@ function EditTransactionPage() {
   }, [detailTransaction, methods]);
 
   useEffect(() => {
-    if (weight !== '' && perprice !== '') {
-      const totalPrice = Number(weight) * Number(perprice);
-      methods.setValue('price', totalPrice.toString());
-    } else if (weight === '' || perprice === '') {
-      methods.setValue('price', '0');
+    if (service != 'lainnya') {
+      methods.setValue(
+        'price',
+        getServiceTotalPrice(
+          service,
+          Number(weight == '' ? 0 : weight),
+          Number(perprice),
+        ).toString(),
+      );
+      methods.setValue(
+        'perprice',
+        getServicePerPrice(
+          service,
+          Number(weight == '' ? 0 : weight),
+        ).toString(),
+      );
+    } else {
+      methods.setValue(
+        'price',
+        getServiceTotalPrice(
+          service,
+          Number(weight == '' ? 0 : weight),
+          Number(perprice),
+        ).toString(),
+      );
     }
-
-    return () => {};
-  }, [service, weight, perprice, methods, detailTransaction?.data.price]);
+  }, [service, weight, perprice, methods]);
 
   useEffect(() => {
     const date = moment();
     const getDateNowFormatted = date.toISOString() as string;
 
-    if (service !== 'lainnya') {
-      if (service === detailTransaction?.data.service) {
-        methods.setValue(
-          'perprice',
-          detailTransaction?.data.perprice.toString(),
-        );
-      } else {
-        methods.setValue('perprice', getServicePrice(service).toString());
-      }
-    } else {
-      methods.setValue('perprice', detailTransaction?.data.perprice as string);
-    }
     if (status === 'lunas' || status === 'bayar-sebagian') {
       if (status === 'lunas') {
-        methods.setValue(
-          'amountPayment',
-          detailTransaction?.data.price as string,
-        );
+        methods.setValue('amountPayment', price);
       }
       methods.setValue(
         'datePayment',
@@ -126,13 +134,11 @@ function EditTransactionPage() {
       methods.setValue('datePayment', '');
     }
   }, [
-    service,
     status,
     methods,
+    price,
     detailTransaction?.data.datePayment,
     detailTransaction?.data.price,
-    detailTransaction?.data.perprice,
-    detailTransaction?.data.service,
   ]);
 
   useEffect(() => {

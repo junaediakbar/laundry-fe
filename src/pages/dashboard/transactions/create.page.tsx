@@ -18,8 +18,8 @@ import Seo from '@/components/Seo';
 
 import REGEX from '@/constant/regex';
 import {
-  getServicePrice,
-  isServiceExpress,
+  getServicePerPrice,
+  getServiceTotalPrice,
   services,
 } from '@/constant/services';
 import { checkPassword } from '@/constant/users';
@@ -80,53 +80,32 @@ export default function CreateTransactionPage() {
   }, [status, methods, price, getDateNowFormatted]);
 
   useEffect(() => {
-    if (service !== 'lainnya' && !isServiceExpress(service)) {
-      methods.setValue('perprice', getServicePrice(service).toString());
-    } else if (isServiceExpress(service)) {
-      methods.setValue('perprice', '1');
-    }
-
-    if (weight !== '' && perprice !== '' && !isServiceExpress(service)) {
-      const totalPrice = Number(weight) * Number(perprice);
-      methods.setValue('price', totalPrice.toString());
-    } else if (isServiceExpress(service) && weight !== '' && perprice !== '') {
-      if (service === 'cuci-lipat-express') {
-        if (Number(weight) <= 3) {
-          const totalPrice = 3 * 8000 + 1000;
-          methods.setValue('price', totalPrice.toString());
-          const customPerPrice = Math.floor(
-            totalPrice / Number(weight),
-          ).toString();
-          methods.setValue('perprice', customPerPrice);
-        } else {
-          const totalPrice = 3 * 8000 + (Number(weight) - 3) * 8000 + 1000;
-          methods.setValue('price', totalPrice.toString());
-          const customPerPrice = Math.floor(
-            totalPrice / Number(weight),
-          ).toString();
-          methods.setValue('perprice', customPerPrice);
-        }
-      } else if (service === 'cuci-komplit-express') {
-        if (Number(weight) <= 3) {
-          const totalPrice = 3 * 12000 + 4000;
-          methods.setValue('price', totalPrice.toString());
-          const customPerPrice = Math.floor(
-            totalPrice / Number(weight),
-          ).toString();
-          methods.setValue('perprice', customPerPrice);
-        } else {
-          const totalPrice = 3 * 12000 + (Number(weight) - 3) * 12000 + 4000;
-          methods.setValue('price', totalPrice.toString());
-          const customPerPrice = Math.floor(
-            totalPrice / Number(weight),
-          ).toString();
-          methods.setValue('perprice', customPerPrice);
-        }
-      }
+    if (service != 'lainnya') {
+      methods.setValue(
+        'price',
+        getServiceTotalPrice(
+          service,
+          Number(weight == '' ? 0 : weight),
+          Number(perprice),
+        ).toString(),
+      );
+      methods.setValue(
+        'perprice',
+        getServicePerPrice(
+          service,
+          Number(weight == '' ? 0 : weight),
+        ).toString(),
+      );
     } else {
-      methods.setValue('price', '0');
+      methods.setValue(
+        'price',
+        getServiceTotalPrice(
+          service,
+          Number(weight == '' ? 0 : weight),
+          Number(perprice),
+        ).toString(),
+      );
     }
-    return () => {};
   }, [service, weight, perprice, methods]);
 
   useEffect(() => {
