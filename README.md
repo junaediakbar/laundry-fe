@@ -54,4 +54,9 @@ See the backend repository [here](https://github.com/junaediakbar/laundry-api)
 
 ## Development Demo
 
-[Vercel Demo](https://trees-clean-laundry-fe.vercel.app/)
+User available:
+| Email | Password |
+|-----------------|----------|
+| admin@gmail.com | admin123 |
+
+[Vercel Demo](https://trees-clean-laundry-fe-git-dev-junaediakbars-projects.vercel.app/?_vercel_share=zxBVAHqXmoiddR9qJv6AoS5eHm4HHwk5)
