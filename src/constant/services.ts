@@ -151,6 +151,10 @@ export const getServicePerPrice = (
       if (weight < 3) return Math.floor((6000 * 3) / weight);
       return 6000;
     }
+    if (selectedService === 'setrika') {
+      if (weight < 3) return Math.floor((5000 * 3) / weight);
+      return 5000;
+    }
     if (selectedService === 'cuci-komplit') {
       if (weight < 3) return Math.floor(8000 * 3) / weight;
       return 8000;
@@ -182,6 +186,10 @@ export const getServiceTotalPrice = (
     if (selectedService === 'cuci-lipat') {
       if (weight < 3) return 3 * 6000;
       return weight * 6000;
+    }
+    if (selectedService === 'setrika') {
+      if (weight < 3) return 3 * 5000;
+      return weight * 5000;
     }
     if (selectedService === 'cuci-komplit') {
       if (weight < 3) return 3 * 8000;

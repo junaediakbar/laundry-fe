@@ -52,6 +52,67 @@ See the backend repository [here](https://github.com/junaediakbar/laundry-api)
 - Deploy with Vercel
 - Components UI mostly used [Aether Design System](https://github.com/theodorusclarence/aether-design-system)
 
+## Settings Services
+
+Set your services in [services.ts](https://github.com/junaediakbar/laundry-fe/blob/main/src/constant/services.ts) with format object like this
+
+```bash
+const services = [
+   {
+      name: 'cuci-lipat',
+      value: 'Cuci Lipat',
+      price: 6000,
+   },
+   ...
+];
+```
+
+## Details Features
+
+#### Authentication
+
+![Login](https://ik.imagekit.io/ctrnlvyl1p/Laundry-ss/ss-login.jpg?updatedAt=1713540562327)
+
+#### Statistic Management
+
+Downloadable receipt and readable statistic Data based on date
+
+![Home](https://ik.imagekit.io/ctrnlvyl1p/Laundry-ss/ss-home.jpg?updatedAt=1713540178032)
+
+#### Transactions Management
+
+![Transactions](https://ik.imagekit.io/ctrnlvyl1p/Laundry-ss/ss-transaction.jpg?updatedAt=1713540178217)
+
+#### Add Transaction
+
+Searcable customers data, autocomplete selected customer data
+
+![Add Transaction](https://ik.imagekit.io/ctrnlvyl1p/Laundry-ss/ss-add-transaction.png?updatedAt=1713540271175)
+
+#### Edit Transaction
+
+Shareable and downlaodable Nota as PDF
+
+![Edit Transaction](https://ik.imagekit.io/ctrnlvyl1p/Laundry-ss/ss-edit-transaction?updatedAt=1713541229418)
+
+#### Log Activities
+
+![Log Activities](https://ik.imagekit.io/ctrnlvyl1p/Laundry-ss/ss-activities?updatedAt=1713541331244)
+
+## Employed Secret Password
+
+Because the website only for internal (not public). I made this user-password actions. So whenever the user do an action, it will watch in Activities tab. Set them in [users.ts](https://github.com/junaediakbar/laundry-fe/blob/main/src/constant/users.ts)
+
+```bash
+const cashierData = [
+   {
+      name: 'admin',
+      password: 'admin123',
+   },
+...
+]
+```
+
 ## Development Demo
 
 User available:
