@@ -7,7 +7,7 @@ import { LogoBase64 } from '@/components/fetch/logo';
 
 import {
   getLabelService,
-  getServicePrice,
+  getServicePerPrice,
   isServiceExpress,
 } from '@/constant/services';
 
@@ -99,7 +99,7 @@ const PdfGenerator = (data: Transaction) => {
           getLabelService(data.service),
           isServiceExpress(data.service) ? 'Express' : 'Reguler',
           data.weight,
-          getServicePrice(data.service)?.toString(),
+          getServicePerPrice(data.service, Number(data.weight))?.toString(),
           data.price,
         ],
       ],

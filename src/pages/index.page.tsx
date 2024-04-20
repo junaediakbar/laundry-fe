@@ -1,4 +1,4 @@
-import { Flower } from 'lucide-react';
+import { Rocket } from 'lucide-react';
 import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
@@ -16,48 +16,35 @@ export default function HomePage() {
       <main>
         <section className='bg-white'>
           <div className='layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center'>
-            <Flower size={40} className='text-primary-500' />
-
-            <Typography as='h1' variant='j1' className='mt-2'>
-              Aether Design System
-            </Typography>
-            <Typography variant='b3' color='tertiary'>
-              Inspired by{' '}
-              <UnderlineLink href='https://moon.io'>moon.io</UnderlineLink>,
-              adjusted to our needs
-            </Typography>
-            <Typography variant='b3' className='mt-6' color='secondary'>
-              <ArrowLink href='https://github.com/theodorusclarence/aether-design-system'>
-                See the repository
-              </ArrowLink>
-            </Typography>
-
-            <div className='mt-6'>
-              <Typography as='h2' variant='h6'>
-                Sandbox:
+            <div className='flex justify-center item-center space-x-2'>
+              <Rocket size={40}></Rocket>
+              <Typography variant='h1'>
+                Hello, Welcome to Admin Laundry
               </Typography>
-              <div className='mt-2 flex flex-wrap justify-center gap-2'>
-                {sandbox.map(({ title, route }) => (
-                  <ButtonLink key={route} href={route} variant='outline'>
-                    {title}
-                  </ButtonLink>
-                ))}
-              </div>
+            </div>
+            <div className='mt-4 space-y-4'>
+              <Typography variant='s2'>Get Started by</Typography>
+              <ButtonLink variant='outline' color='primary' href='/login'>
+                Login as Administrator
+              </ButtonLink>
+            </div>
+            <div className='mt-20'>
+              <Typography variant='s4'>Do want to create like this?</Typography>
+              <ArrowLink href='https://github.com/junaediakbar/laundry-fe'>
+                See this repository
+              </ArrowLink>
             </div>
 
-            <footer className='absolute bottom-2 text-gray-700'>
-              © {new Date().getFullYear()} By{' '}
-              <UnderlineLink href='https://theodorusclarence.com?ref=aether-design-system'>
-                Clarence
+            <footer className='absolute bottom-8 text-gray-700'>
+              © {new Date().getFullYear()} Created By{' '}
+              <UnderlineLink href='https://junaediakbar.com/'>
+                Junaedi Akbar
+              </UnderlineLink>
+              {', '} Designed with{' '}
+              <UnderlineLink href='https://github.com/theodorusclarence/aether-design-system'>
+                Aether Design System
               </UnderlineLink>
               {', '}
-              <UnderlineLink href='https://rizqitsani.com?ref=aether-design-system'>
-                Rizqi
-              </UnderlineLink>
-              {', '}
-              <UnderlineLink href='https://github.com/winatungmiharja?ref=aether-design-system'>
-                Wina
-              </UnderlineLink>
             </footer>
           </div>
         </section>
@@ -65,96 +52,3 @@ export default function HomePage() {
     </Layout>
   );
 }
-
-//#region  //*=========== Sandbox ===========
-const sandbox = [
-  {
-    title: 'Typography',
-    route: '/sandbox/typography',
-  },
-  {
-    title: 'Colors',
-    route: '/sandbox/colors',
-  },
-  {
-    title: 'Form',
-    route: '/sandbox/form',
-  },
-  {
-    title: 'Searchable Select Form',
-    route: '/sandbox/searchable-select-form',
-  },
-  {
-    title: 'Text Link & Button',
-    route: '/sandbox/text-button',
-  },
-  {
-    title: 'Button',
-    route: '/sandbox/button',
-  },
-  {
-    title: 'Breadcrumb',
-    route: '/sandbox/breadcrumb',
-  },
-  {
-    title: 'Icon Button',
-    route: '/sandbox/icon-button',
-  },
-  {
-    title: 'React Query & Toast',
-    route: '/sandbox/toast-rq',
-  },
-  {
-    title: 'Modal',
-    route: '/sandbox/modal',
-  },
-  {
-    title: 'Dialog',
-    route: '/sandbox/dialog',
-  },
-  {
-    title: 'Table',
-    route: '/sandbox/table',
-  },
-  {
-    title: 'Tooltip',
-    route: '/sandbox/tooltip',
-  },
-  {
-    title: 'Mac Card',
-    route: '/sandbox/mac-cards',
-  },
-  {
-    title: 'Popover',
-    route: '/sandbox/popover',
-  },
-  {
-    title: 'Banner',
-    route: '/sandbox/banner',
-  },
-  {
-    title: 'Alert',
-    route: '/sandbox/alert',
-  },
-  {
-    title: 'Typography Alert',
-    route: '/sandbox/typography-alert',
-  },
-  {
-    title: 'Tag',
-    route: '/sandbox/tag',
-  },
-  {
-    title: 'Card',
-    route: '/sandbox/card',
-  },
-  {
-    title: 'Development Card',
-    route: '/sandbox/development-card',
-  },
-  {
-    title: 'Statistics Card',
-    route: '/sandbox/statistics-card',
-  },
-];
-//#endregion  //*======== Sandbox ===========
