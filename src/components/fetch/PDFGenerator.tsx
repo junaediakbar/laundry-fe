@@ -32,7 +32,7 @@ const PdfGenerator = (data: Transaction) => {
         [
           {
             content:
-              'From:' +
+              'Kasir: ' +
               data.cashier +
               '\nTrees Clean Laundry' +
               '\nJL. Tombolotutu No 9B' +
@@ -51,11 +51,15 @@ const PdfGenerator = (data: Transaction) => {
         [
           {
             content:
-              'Reference: ' +
+              'N. Referensi: ' +
               data.transactionId +
-              '\nDate: ' +
+              '\nT. Masuk: ' +
               getDateFormatted(data.dateIn) +
-              '\nInvoice number: ' +
+              '\nT. Selesai: ' +
+              getDateFormatted(data.dateDone) +
+              '\nT. Diambil: ' +
+              getDateFormatted(data.dateOut) +
+              '\nNomor Nota: ' +
               data.notaId,
             styles: {
               halign: 'right',
@@ -75,7 +79,7 @@ const PdfGenerator = (data: Transaction) => {
         [
           {
             content:
-              'Billed to:' +
+              'Kepada Pelanggan:' +
               '\n' +
               data.name +
               '\n' +
@@ -93,7 +97,7 @@ const PdfGenerator = (data: Transaction) => {
     });
 
     autoTable(doc, {
-      head: [['Items', 'Category', 'Berat', 'Harga(kg)', 'Total']],
+      head: [['Layanan', 'Kategori', 'Berat(Kg)', 'Harga', 'Total']],
       body: [
         [
           getLabelService(data.service),
@@ -174,7 +178,7 @@ const PdfGenerator = (data: Transaction) => {
         ],
         [
           {
-            content: 'Total amount:',
+            content: 'Total Harga:',
             styles: {
               halign: 'right',
             },
@@ -208,7 +212,7 @@ const PdfGenerator = (data: Transaction) => {
               '\n' +
               'Harap mencocokkan kembali.' +
               '\n' +
-              'No.Telp: 08123456789',
+              'No.Telp: 0852-9840-0700',
             styles: {
               halign: 'left',
             },
@@ -222,7 +226,7 @@ const PdfGenerator = (data: Transaction) => {
       body: [
         [
           {
-            content: 'This is a centered footer',
+            content: '------ Terima Kasih ------',
             styles: {
               halign: 'center',
             },

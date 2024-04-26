@@ -51,7 +51,7 @@ export interface Transaction {
   fkAuthor: number;
   dateIn: string;
   dateDone: string;
-  dateOut?: string;
+  dateOut: string;
   datePayment: string;
   status: string;
   statusTaken: string;
