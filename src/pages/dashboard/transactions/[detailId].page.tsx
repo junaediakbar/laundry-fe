@@ -80,7 +80,7 @@ function EditTransactionPage() {
     }
 
     if (detailTransaction?.data.dateOut !== null) {
-      methods.setValue('dateOut', detailTransaction?.data.dateOut);
+      methods.setValue('dateOut', detailTransaction?.data.dateOut as string);
       methods.setValue('statusTaken', 'diambil');
     } else {
       methods.setValue('statusTaken', 'belum-diambil');
@@ -148,7 +148,7 @@ function EditTransactionPage() {
         const getDateNowFormatted = date.toISOString() as string;
         methods.setValue('dateOut', getDateNowFormatted);
       } else {
-        methods.setValue('dateOut', detailTransaction?.data.dateOut);
+        methods.setValue('dateOut', detailTransaction?.data.dateOut as string);
       }
     } else if (statusTaken === 'belum-diambil') {
       methods.setValue('dateOut', '');
