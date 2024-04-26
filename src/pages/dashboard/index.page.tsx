@@ -129,7 +129,7 @@ function HomeDashboardPage() {
                 variant='success'
                 icon={WeightIcon}
                 label='Total Berat'
-                value={totalWeight + ' Kg'}
+                value={totalWeight.toFixed(3) + ' Kg'}
                 isLoading={isLoading}
               />
               <StatisticsCard

@@ -1,4 +1,5 @@
 export const getDateFormatted = (date: string) => {
+  if (date == null) return '-';
   const number = new Date(date);
 
   return number.toLocaleDateString('id-ID', {

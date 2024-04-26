@@ -45,10 +45,11 @@ export default function LoginPage() {
       success: 'Berhasil masuk',
     },
   );
-
+  // #region Methods
   const onSubmit = async (data: LoginRequestType) => {
     await postLogin(data);
   };
+  // #endregion
 
   return (
     <Layout>
