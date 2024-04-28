@@ -64,7 +64,9 @@ function HomeDashboardPage() {
         .get(`/transaction/recap/date?date=${formattedDate}`)
         .then(async (res) => {
           setTotalPrice(res.data.data.price);
-          setTotalWeight(res.data.data.weight);
+          setTotalWeight(
+            res.data.data.weight === null ? 0 : res.data.data.weight,
+          );
           setTotalDeposit(res.data.data.depositPayment);
           //Nota HARI INI dan SUDAH DIBAYAR
           setTotalAmountToday(res.data.data.amountPaymentToday);
