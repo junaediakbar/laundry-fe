@@ -192,7 +192,7 @@ export default function CreateTransactionPage() {
                   labelGetter='id'
                   valueGetter='name'
                   id='name'
-                  route='/customer?limit=100'
+                  route='/customer?limit=500'
                   label='Pilih Customer'
                   placeholder='Pilih Customer'
                 />
