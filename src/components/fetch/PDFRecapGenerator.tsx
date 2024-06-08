@@ -1,7 +1,8 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import moment from 'moment';
 
-import { formatDate, getPriceFormmated } from '@/lib/formatters';
+import { getPriceFormmated } from '@/lib/formatters';
 
 import { LogoBase64 } from '@/components/fetch/logo';
 
@@ -17,7 +18,11 @@ interface DataTotalResponse {
   totalAmountPaymentToday: string;
   dateStart: string;
 }
-const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
+const PdfGenerator = (
+  name: string = '',
+  data: Transaction[],
+  summary: DataTotalResponse,
+) => {
   const listData = [
     ...data.map((item, i) => [
       i + 1,
@@ -26,6 +31,7 @@ const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
       getLabelService(item.service),
       item.status,
       item.amountPayment,
+      moment(item.datePayment).format('yyyy-MM-DD'),
       item.price,
     ]),
   ];
@@ -61,7 +67,16 @@ const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
 
     autoTable(doc, {
       head: [
-        ['No.', 'No. Nota', 'Name', 'Category', 'Status', 'Paid', 'Total'],
+        [
+          'No.',
+          'No. Nota',
+          'Name',
+          'Category',
+          'Status',
+          'Paid',
+          'Paid Date',
+          'Total',
+        ],
       ],
       body: listData,
       theme: 'striped',
@@ -146,7 +161,7 @@ const PdfGenerator = (data: Transaction[], summary: DataTotalResponse) => {
       theme: 'plain',
     });
 
-    return doc.save(`REPORT-${formatDate(summary.dateStart)}`);
+    return doc.save(name);
   }
   downloadInvoice();
 };

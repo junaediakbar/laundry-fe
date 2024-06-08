@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import {
+  BadgeDollarSign,
   Download,
   LucideIcon,
   ScissorsSquareDashedBottom,
@@ -47,6 +48,8 @@ function HomeDashboardPage() {
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
+
+  const selecetedDate = methods.watch('date');
 
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [totalAmountToday, setTotalAmountToday] = React.useState(0);
@@ -99,8 +102,24 @@ function HomeDashboardPage() {
 
   const onSubmit = async (data: { date: string }) => {
     const res = await getDataToday(data);
+    const selectedDate = moment(data.date).format('yyyy-MM-DD');
+    const filename = `REPORT-${selectedDate}.pdf`;
 
-    PDFRecapGenerator(res.data.data.data, {
+    PDFRecapGenerator(filename, res.data.data.data, {
+      totalPrice: totalPrice.toString(),
+      totalWeight: totalWeight.toString(),
+      totalDeposit: totalDeposit.toString(),
+      totalAmountPayment: totalAmountPayment.toString(),
+      totalAmountPaymentToday: totalAmountToday.toString(),
+      dateStart: new Date(date).toISOString(),
+    });
+  };
+
+  const onDownloadPayments = async (data: { date: string }) => {
+    const res = await getDataToday(data);
+    const selectedDate = moment(data.date).format('yyyy-MM-DD');
+    const filename = `REPORT-${selectedDate}.pdf`;
+    PDFRecapGenerator(filename, res.data.data.dataPayment, {
       totalPrice: totalPrice.toString(),
       totalWeight: totalWeight.toString(),
       totalDeposit: totalDeposit.toString(),
@@ -191,6 +210,17 @@ function HomeDashboardPage() {
                     rightIcon={Download}
                   >
                     Download
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      onDownloadPayments({ date: selecetedDate });
+                    }}
+                    isLoading={isLoading2}
+                    className='px-2'
+                    variant='secondary'
+                    rightIcon={BadgeDollarSign}
+                  >
+                    Download Pembayaran
                   </Button>
                 </div>
               </form>
