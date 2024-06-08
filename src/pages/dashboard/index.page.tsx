@@ -198,7 +198,6 @@ function HomeDashboardPage() {
                   dateFormat='dd-MM-yyyy'
                   label='Pilih Tanggal'
                   placeholder='Pilih Tanggal'
-                  validation={{ required: 'Tanggal harus diisi' }}
                 />
                 <div className='!mt-6 flex space-x-2'>
                   <Button

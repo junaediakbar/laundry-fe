@@ -31,7 +31,9 @@ const PdfGenerator = (
       getLabelService(item.service),
       item.status,
       item.amountPayment,
-      moment(item.datePayment).format('yyyy-MM-DD'),
+      item.datePayment != null
+        ? moment(item.datePayment).format('yyyy-MM-DD')
+        : '-',
       item.price,
     ]),
   ];
