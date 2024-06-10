@@ -5,11 +5,15 @@ const cashierData = [
   },
   {
     name: 'dodo',
-    password: 'dodo123',
+    password: 'dodo321',
   },
   {
-    name: 'mama',
-    password: 'mama123',
+    name: 'ayu',
+    password: 'ayu856',
+  },
+  {
+    name: 'nisa',
+    password: 'nisa2007',
   },
 ];
 

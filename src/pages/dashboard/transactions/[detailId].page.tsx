@@ -238,8 +238,12 @@ function EditTransactionPage() {
                       options={[
                         { value: 'dodo', label: 'Dodo' },
                         {
-                          value: 'mama',
-                          label: 'Mama',
+                          value: 'ayu',
+                          label: 'Ayu',
+                        },
+                        {
+                          value: 'nisa',
+                          label: 'Nisa',
                         },
                         {
                           value: 'papa',
