@@ -160,12 +160,12 @@ export const getServicePerPrice = (
       return 8000;
     }
     if (selectedService === 'cuci-lipat-express') {
-      if (weight < 3) return Math.floor(25000 / weight);
-      return Math.floor((25000 + (weight - 3) * 8000) / weight);
-    }
-    if (selectedService === 'cuci-komplit-express') {
       if (weight < 3) return Math.floor(27000 / weight);
       return Math.floor((27000 + (weight - 3) * 9000) / weight);
+    }
+    if (selectedService === 'cuci-komplit-express') {
+      if (weight < 3) return Math.floor(40000 / weight);
+      return Math.floor((40000 + (weight - 3) * 12000) / weight);
     } else return getServiceBasicPrice(selectedService);
   }
 };
@@ -200,12 +200,12 @@ export const getServiceTotalPrice = (
       return 8000;
     }
     if (selectedService === 'cuci-lipat-express') {
-      if (weight < 3) return 25000;
-      return Math.floor(25000 + (weight - 3) * 8000);
-    }
-    if (selectedService === 'cuci-komplit-express') {
       if (weight < 3) return 27000;
       return Math.floor(27000 + (weight - 3) * 9000);
+    }
+    if (selectedService === 'cuci-komplit-express') {
+      if (weight < 3) return 40000;
+      return Math.floor(40000 + (weight - 3) * 12000);
     } else {
       return Math.floor(weight * getServicePerPrice(selectedService, weight));
     }
@@ -225,8 +225,8 @@ export const getServiceBasicPrice = (selectedService: string) => {
   if (selectedService === 'selimut-double-nomor-3/4') return 30000;
   if (selectedService === 'selimut-double-nomor-2') return 40000;
   if (selectedService === 'selimut-double-nomor-1') return 50000;
-  if (selectedService === 'cuci-lipat-express') return 8000;
-  if (selectedService === 'cuci-komplit-express') return 9000;
+  if (selectedService === 'cuci-lipat-express') return 9000;
+  if (selectedService === 'cuci-komplit-express') return 12000;
   if (selectedService === 'karpet') return 15000;
   if (selectedService === 'selimut-nomor-3/4-express') return 10000 * 1.5;
   if (selectedService === 'selimut-nomor-2-express') return 15000 * 1.5;
