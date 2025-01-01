@@ -35,6 +35,11 @@ export const services = [
     price: 10000,
   },
   {
+    name: 'setrika',
+    value: 'Setrika',
+    price: 5000,
+  },
+  {
     name: 'kering-saja-6kg',
     value: 'Kering Saja 6kg',
     price: 10000,
@@ -147,6 +152,10 @@ export const getServicePerPrice = (
       if (weight < 3) return Math.floor((6000 * 3) / weight);
       return 6000;
     }
+    if (selectedService === 'setrika') {
+      if (weight < 3) return Math.floor((5000 * 3) / weight);
+      return 5000;
+    }
     if (selectedService === 'cuci-lipat-bayi') {
       if (weight < 3) return Math.floor((9000 * 3) / weight);
       return 9000;
@@ -202,6 +211,10 @@ export const getServiceTotalPrice = (
       const perprice = customPerPrice ? customPerPrice : 0;
       return weight * perprice;
     }
+    if (selectedService === 'setrika') {
+      if (weight < 3) return 3 * 5000;
+      return weight * 5000;
+    }
     if (selectedService === 'cuci-lipat') {
       if (weight < 3) return 3 * 6000;
       return weight * 6000;
@@ -245,6 +258,7 @@ export const getServiceBasicPrice = (selectedService: string) => {
   if (selectedService === 'cuci-komplit') return 9000;
   if (selectedService === 'cuci-komplit-bayi') return 11000;
   if (selectedService === 'lipat-saja') return 3000;
+  if (selectedService === 'setrika') return 5000;
   if (selectedService === 'kering-saja') return 10000;
   if (selectedService === 'kering-saja-6kg') return 10000;
   if (selectedService === 'kering-saja-10kg') return 15000;
@@ -273,6 +287,7 @@ export const getLabelService = (selectedService: string) => {
   if (selectedService === 'cuci-komplit') return 'Cuci Komplit';
   if (selectedService === 'cuci-komplit-bayi') return 'Cuci Komplit Bj Bayi';
   if (selectedService === 'lipat-saja') return 'Lipat Saja';
+  if (selectedService === 'setrika') return 'Setrika';
   if (selectedService === 'kering-saja') return 'Kering Saja';
   if (selectedService === 'kering-saja-6kg') return 'Kering Saja 6kg';
   if (selectedService === 'kering-saja-10kg') return 'Kering Saja 10kg';
