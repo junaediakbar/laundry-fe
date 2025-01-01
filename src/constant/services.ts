@@ -17,7 +17,7 @@ export const services = [
   {
     name: 'cuci-komplit',
     value: 'Cuci Komplit',
-    price: 8500,
+    price: 9000,
   },
   {
     name: 'cuci-komplit-bayi',
@@ -156,8 +156,8 @@ export const getServicePerPrice = (
       return 7000;
     }
     if (selectedService === 'cuci-komplit') {
-      if (weight < 3) return Math.floor((8500 * 3) / weight);
-      return 8500;
+      if (weight < 3) return Math.floor((9000 * 3) / weight);
+      return 9000;
     }
     if (selectedService === 'cuci-komplit-bayi') {
       if (weight < 3) return Math.floor((11000 * 3) / weight);
@@ -215,8 +215,8 @@ export const getServiceTotalPrice = (
       return weight * 7000;
     }
     if (selectedService === 'cuci-komplit') {
-      if (weight < 3) return 3 * 8500;
-      return weight * 8500;
+      if (weight < 3) return 3 * 9000;
+      return weight * 9000;
     }
     if (selectedService === 'cuci-komplit-bayi') {
       if (weight < 3) return 3 * 11000;
@@ -242,7 +242,7 @@ export const getServiceBasicPrice = (selectedService: string) => {
   if (selectedService === 'cuci-lipat') return 6000;
   if (selectedService === 'cuci-lipat-bayi') return 9000;
   if (selectedService === 'cuci-lipat-anak') return 7000;
-  if (selectedService === 'cuci-komplit') return 8500;
+  if (selectedService === 'cuci-komplit') return 9000;
   if (selectedService === 'cuci-komplit-bayi') return 11000;
   if (selectedService === 'lipat-saja') return 3000;
   if (selectedService === 'kering-saja') return 10000;
